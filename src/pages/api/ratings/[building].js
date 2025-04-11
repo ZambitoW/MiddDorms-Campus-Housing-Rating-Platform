@@ -1,3 +1,4 @@
+/*
 import { createRouter } from "next-connect";
 import { onError } from "@/lib/middleware";
 //gonna need more imports
@@ -15,3 +16,4 @@ router.get(async (req, res) => {
 // Notice the `onError` middleware for aspect-oriented error handler. That middleware
 // will be invoked if the handler code throws an exception.
 export default router.handler({ onError });
+*/
