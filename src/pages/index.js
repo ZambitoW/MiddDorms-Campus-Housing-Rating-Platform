@@ -40,7 +40,6 @@ export default function Home() {
             </li>
             <li>Save and see your changes instantly.</li>
           </ol>
-
           <div className={styles.ctas}>
             <a
               className={styles.primary}
