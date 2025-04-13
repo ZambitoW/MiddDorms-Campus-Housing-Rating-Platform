@@ -31,6 +31,42 @@
     --button-secondary-hover: #1a1a1a;
   }
 }
+.pageTitle {
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 24px;
+  align-self: flex-start;
+}
+
+.funFacts {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 32px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+
+.funImage {
+  flex: 1;
+  max-width: 300px;
+  height: auto;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.dormSection {
+  margin-top: 40px;
+  width: 100%;
+}
+
+.dormHeading {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 4px;
+}
 
 .main {
   display: flex;

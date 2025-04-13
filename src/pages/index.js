@@ -2,6 +2,7 @@ import Head from "next/head";
 import { Geist, Geist_Mono } from "next/font/google";
 import styles from "@/styles/Home.module.css";
 import DormList from "@/components/dormList";
+import Image from "next/image";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,51 +27,40 @@ export default function Home() {
         className={`${styles.page} ${geistSans.variable} ${geistMono.variable}`}
       >
         <main className={styles.main}>
-          {/* <Image
-            className={styles.logo}
-            src="/next.svg"
-            alt="Next.js logo"
-            width={180}
-            height={38}
-            priority
-          />
-          <ol>
-            <li>
-              Get started by editing <code>src/pages/index.js</code>.
-            </li>
-            <li>Save and see your changes instantly.</li>
-          </ol>
+          <h1 className={styles.title}> Middlebury Dorms</h1>
 
-          <div className={styles.ctas}>
-            <a
-              className={styles.primary}
-              href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Image
-                className={styles.logo}
-                src="/vercel.svg"
-                alt="Vercel logomark"
-                width={20}
-                height={20}
-              />
-              Deploy now
-            </a>
-            <a
-              href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.secondary}
-            >
-              Read our docs
-            </a>
-          </div> */}
+          <section className={styles.funFacts}>
+            <div className={styles.funFacts}>
+              <p>
+                🏫 Did you know Battell is said to be turned into a museum, once
+                the new dorm opens?
+              </p>
+              <p>🎉 Giffords 5th floor lounge has amazing sunset views!</p>
+              <p>🌲 Forest has personal sinks adjoining two single rooms. </p>
+            </div>
+            <Image
+              className={styles.funImage}
+              src="/dorms.jpg"
+              alt="Middlebury Dorms"
+              width={300}
+              height={200}
+            />
+          </section>
 
-          <div>
-            <h2 className={styles.title}>Dorms</h2>
-            <DormList />
-          </div>
+          {/* Dorm Sections */}
+          <section className={styles.dormSection}>
+            <h2 className={styles.dormHeading}>First Year Dorms</h2>
+            <DormList dormFilter="first" />
+          </section>
+
+          <section className={styles.dormSection}>
+            <h2 className={styles.dormHeading}>Second Year Dorms</h2>
+            <DormList dormFilter="second" />
+          </section>
+          <section className={styles.dormSection}>
+            <h2 className={styles.dormHeading}>Senior Year Dorms</h2>
+            <DormList dormFilter="senior" />
+          </section>
         </main>
 
         <footer className={styles.footer}>
