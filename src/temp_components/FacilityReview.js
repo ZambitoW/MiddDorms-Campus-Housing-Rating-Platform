@@ -27,7 +27,7 @@ const FacilityReview = () => {
                 style={{
                   width: `${(rating / 5) * 100}%`,
                 }}
-               />
+              />
             </div>
             <span className={styles.score}>{rating}/5</span>
           </div>
