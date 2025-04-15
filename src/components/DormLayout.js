@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import ImageSlideshow from "@/Components/images";
 import FacilityReview from "@/Components/FacilityReview";
-import stylesReview from "@/styles/FacilityReview.module.css";
+import stylesReview from "../styles/FacilityReview.module.css";
 
 export default function DormLayout({ dorm }) {
   const router = useRouter();
