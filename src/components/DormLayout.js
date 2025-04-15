@@ -2,8 +2,8 @@ import styles from "@/styles/Home.module.css";
 import PropTypes from "prop-types";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import ImageSlideshow from "@/components/images";
-import FacilityReview from "@/components/FacilityReview";
+import ImageSlideshow from "../images";
+import FacilityReview from "../FacilityReview";
 import stylesReview from "../styles/FacilityReview.module.css";
 
 export default function DormLayout({ dorm }) {
