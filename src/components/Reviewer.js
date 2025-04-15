@@ -4,25 +4,58 @@ Reviewer.js
 This provides a series of multiple choice questions with limited user selection 
 of one and a space for entering additional comments.
 
-specify more here! 
-
 */
 
 import { useState } from "react";
 import PropTypes from "prop-types";
 
 export default function Reviewer({
-  dormOptions,
-  questions,
-  complete,
   initialResponses = {},
   initialComment = "",
 }) {
-  // state to track answers
+  const defaultQuestions = [
+    {
+      id: "storage_space",
+      prompt: "How much storage did you have?",
+      scale: { low: "Very Little Storage", high: "Lots of Storage" },
+    },
+    {
+      id: "clean",
+      prompt: "How clean was your dorm?",
+      scale: { low: "Not Clean", high: "Very Clean" },
+    },
+    {
+      id: "noise",
+      prompt: "How loud was your dorm?",
+      scale: { low: "Very Loud", high: "Not Loud" },
+    },
+    {
+      id: "size",
+      prompt: "How big was your dorm?",
+      scale: { low: "Very Little", high: "Very Big" },
+    },
+    {
+      id: "dining_hall_proximity",
+      prompt: "How close was the nearest dining hall?",
+      scale: { low: "Very Far", high: "Very Close" },
+    },
+    {
+      id: "laundry",
+      prompt: "How close was the nearest laundry?",
+      scale: { low: "Very Far", high: "Very Close" },
+    },
+  ];
+
+  //dorm options and room types can be imported from where they're created, added these so it could run
+  const dormOptions = ["Gifford", "Battell"];
+  const roomTypes = ["Single", "Double"];
+
+  const [selectedDorm, setSelectedDorm] = useState("");
+  const [selectedRoomType, setSelectedRoomType] = useState("");
   const [responses, setResponses] = useState(initialResponses);
   const [comment, setComment] = useState(initialComment);
+  const [questions] = useState(defaultQuestions);
 
-  // this function runs when a user selects a number (1-5) for a question
   const handleChange = (questionId, value) => {
     setResponses((prev) => ({
       ...prev,
@@ -30,47 +63,64 @@ export default function Reviewer({
     }));
   };
 
-  // this function runs when the user clicks "Submit"
   const handleSubmit = () => {
-    complete({
-      dormOptions,
-      responses,
-      comment,
-    });
+    // save data to users previous reviews
   };
+
   return (
-    <div>
-      <h2>Rate Your Dorm Experience:</h2>
+    <div style={{ maxHeight: "10vh" }}>
+      <h1>Rate Your Dorm Experience</h1>
 
-      {questions.map(
-        (
-          question, // for each question in array, display question and 1 - 5 rating
-        ) => (
-          <div key={question.id}>
-            <p>
-              {question.prompt}
-              (1 = {question.scale.low}, 5 = {question.scale.high})
-            </p>
+      {/* Dorm selector */}
+      <h2>Select Your Dorm:</h2>
+      <select
+        value={selectedDorm}
+        onChange={(e) => setSelectedDorm(e.target.value)}
+      >
+        <option value="">-- Choose a dorm --</option>
 
-            {[1, 2, 3, 4, 5].map(
-              (
-                num, //loops through the numbers in rating scale
-              ) => (
-                <label key={num}>
-                  <input
-                    type="radio" // chooses one answer at a time
-                    name={question.id}
-                    value={num}
-                    checked={responses[question.id] === num}
-                    onChange={(e) => handleChange(question.id, e.target.value)}
-                  />
-                  {num}{" "}
-                </label>
-              ),
-            )}
-          </div>
-        ),
-      )}
+        {dormOptions.map((dorm) => (
+          <option key={dorm} value={dorm}>
+            {dorm}
+          </option>
+        ))}
+      </select>
+
+      {/* Room type selector */}
+      <h2>Select Your Room Type:</h2>
+      <select
+        value={selectedRoomType}
+        onChange={(e) => setSelectedRoomType(e.target.value)}
+      >
+        <option value="">-- Choose a room type --</option>
+        {roomTypes.map((type) => (
+          <option key={type} value={type}>
+            {type}
+          </option>
+        ))}
+      </select>
+
+      {questions.map((question) => (
+        <div key={question.id}>
+          <p>
+            {question.prompt} (1 = {question.scale.low}, 5 ={" "}
+            {question.scale.high})
+          </p>
+
+          {[1, 2, 3, 4, 5].map((num) => (
+            <label key={`${question.id}-${num}`}>
+              <input
+                type="radio"
+                name={question.id}
+                value={num}
+                checked={responses[question.id] === num}
+                onChange={(e) => handleChange(question.id, e.target.value)}
+              />
+              {num}{" "}
+            </label>
+          ))}
+        </div>
+      ))}
 
       {/* comment box */}
       <div>
@@ -83,21 +133,19 @@ export default function Reviewer({
         />
       </div>
 
-      {/* submit button */}
-      <button onClick={handleSubmit}>Submit Review</button>
+      <button
+        onClick={handleSubmit}
+        disabled={!selectedDorm || !selectedRoomType}
+      >
+        Submit{" "}
+      </button>
     </div>
   );
 }
 
 Reviewer.propTypes = {
-  dormOptions: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-    .isRequired,
-  questions: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      prompt: PropTypes.string.isRequired,
-    }),
-  ).isRequired,
+  dormOptions: PropTypes.arrayOf(PropTypes.string).isRequired,
+  roomTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
   complete: PropTypes.func.isRequired,
   initialResponses: PropTypes.object,
   initialComment: PropTypes.string,
