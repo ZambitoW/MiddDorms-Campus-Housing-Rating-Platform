@@ -2,7 +2,9 @@ import styles from "@/styles/Home.module.css";
 import PropTypes from "prop-types";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import ImageSlideshow from "@/components/images";
+import ImageSlideshow from "./images";
+import FacilityReview from "./FacilityReview";
+import stylesReview from "../styles/FacilityReview.module.css";
 
 export default function DormLayout({ dorm }) {
   const router = useRouter();
@@ -19,10 +21,8 @@ export default function DormLayout({ dorm }) {
           <div>
             <p>Type: {dorm.building_type}</p>
             <p>Residents: {dorm.residents}</p>
-            <p>Laundry: 2</p>
-            <p>Ratings: 4.6/5</p>
-            {/* other stuff... */}
             <p />
+            <FacilityReview className={stylesReview.FacilityReview} />
             <button
               className={styles.secondary}
               onClick={() => router.push("/")}
