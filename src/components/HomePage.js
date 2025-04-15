@@ -1,5 +1,5 @@
 import styles from "@/styles/Home.module.css";
-import DormList from "@/Components/dormList";
+import DormList from "@/components/dormList";
 import Image from "next/image";
 
 export default function HomeCreator() {
