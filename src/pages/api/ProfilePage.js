@@ -1,6 +1,6 @@
 import { createRouter } from "next-connect";
-import User from "../../../models/User"; // Assuming you have a User model
-import Rating from "../../../models/Rating"; // Assuming you have a Rating model
+import User from "../../../models/User";
+import Rating from "../../../models/Rating";
 
 const router = createRouter();
 
@@ -8,10 +8,20 @@ router.get(async (req, res) => {
   const tempUserID = 2; // Placeholder, replace with dynamic user ID when available
   try {
     const user = await User.query().findById(tempUserID).throwIfNotFound();
-
     const reviews = await Rating.query().where("userId", tempUserID);
 
-    // Respond with user data and reviews
+    const ratingFields = [
+      "storage_space",
+      "size",
+      "noise",
+      "dining_hall_proximity",
+      "ac_proximity",
+      "public_bathrooms",
+      "public_kitchens",
+      "elevators",
+      "laundry",
+    ];
+
     res.status(200).json({
       userInfo: {
         id: user.id,
@@ -20,25 +30,27 @@ router.get(async (req, res) => {
         email: user.email,
         classYear: user.classYear,
       },
-      pastReviews: reviews.map((review) => ({
-        id: review.id,
-        Dorm: review.buildingId,
-        RoomType: review.room_type,
-        Rating: (
-          ((review.storage_space || 0) +
-            (review.size || 0) +
-            (review.noise || 0) +
-            (review.dining_hall_proximity || 0) +
-            (review.ac_proximity || 0) +
-            (review.public_bathrooms || 0) +
-            (review.public_kitchens || 0) +
-            (review.elevators || 0) +
-            (review.laundry || 0)) /
-          9
-        ).toFixed(1),
-        comment: review.comment,
-        date: new Date().toISOString().split("T")[0],
-      })),
+      pastReviews: reviews.map((review) => {
+        const validRatings = ratingFields
+          .map((field) => review[field])
+          .filter((value) => value != null);
+
+        const averageRating = validRatings.length
+          ? (
+              validRatings.reduce((sum, value) => sum + value, 0) /
+              validRatings.length
+            ).toFixed(1)
+          : "0.0";
+
+        return {
+          id: review.id,
+          Dorm: review.buildingId,
+          RoomType: review.room_type,
+          Rating: averageRating,
+          comment: review.comment,
+          date: new Date().toISOString().split("T")[0],
+        };
+      }),
     });
   } catch (error) {
     console.error("Error fetching user data:", error);
