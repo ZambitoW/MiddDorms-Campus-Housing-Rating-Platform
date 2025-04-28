@@ -10,8 +10,8 @@ router.post(async (req, res) => {
     const { dorm, roomType, responses, comment } = req.body;
     const rating = await Rating.query().insertAndFetch({
       userId: tempUserId, //This should be changes when we do authentication
-      buildingId: dorm.toLowerCase(),
-      room_type: roomType.toLowerCase(),
+      buildingId: dorm,
+      room_type: roomType,
       storage_space: responses.storage_space,
       clean: responses.clean,
       size: responses.size,
