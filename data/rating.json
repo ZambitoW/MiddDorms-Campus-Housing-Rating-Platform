@@ -2,7 +2,7 @@
   {
     "id": 100,
     "userId": 1,
-    "buildingId": "Gifford",
+    "buildingId": "gifford",
     "room_type": "single",
     "storage_space": 5,
     "clean": 5,
@@ -19,7 +19,7 @@
   {
     "id": 101,
     "userId": 1,
-    "buildingId": "Battell",
+    "buildingId": "battell",
     "room_type": "double",
     "storage_space": 4,
     "clean": 4,
@@ -36,7 +36,7 @@
   {
     "id": 102,
     "userId": 2,
-    "buildingId": "Gifford",
+    "buildingId": "gifford",
     "room_type": "suite",
     "storage_space": 3,
     "clean": 3,
