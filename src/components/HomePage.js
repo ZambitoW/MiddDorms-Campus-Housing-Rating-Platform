@@ -3,6 +3,7 @@ import DormList from "@/components/dormList";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import funFacts from "../../data/funFacts";
+import FilterBar from "./filterBar";
 
 function getRandomFacts(facts, count) {
   const shuffled = [...facts].sort(() => 0.5 - Math.random());
@@ -11,52 +12,100 @@ function getRandomFacts(facts, count) {
 
 export default function HomeCreator() {
   const [randomFacts, setRandomFacts] = useState([]);
+  const [yearFilter, setYearFilter] = useState(""); // <-- New for year
+
+  const [activeFilters, setActiveFilters] = useState({
+    roomTypes: [],
+    amenities: [],
+    accessibility: [],
+  });
 
   useEffect(() => {
-    const selectedFacts = getRandomFacts(funFacts, 3);
+    const selectedFacts = getRandomFacts(funFacts, 4);
     setRandomFacts(selectedFacts);
   }, []);
+
+  const toggleFilter = (category, value) => {
+    console.log("Toggling Filter:", category, value);
+
+    setActiveFilters((prev) => {
+      const val = value.toLowerCase();
+      const isActive = prev[category].includes(val);
+      return {
+        ...prev,
+        [category]: isActive
+          ? prev[category].filter((v) => v !== val)
+          : [...prev[category], val],
+      };
+    });
+  };
+
   return (
     <>
       <main className={styles.main}>
+        {/* Top Section */}
         <h1 className={styles.title}> Middlebury College Dorms</h1>
-
-        <section className={styles.mainFacts}>
-          <Image
-            className={styles.mainImage}
-            src="/dormsOverview.jpg"
-            alt="Middlebury Dorms"
-            width={300}
-            height={200}
-          />
-          <div>
-            <div>
-              <h4>Fun Facts</h4>
-              <ul>
-                {randomFacts.map((fact) => (
-                  <li key={fact}>{fact}</li>
-                ))}
-              </ul>
-            </div>
+        <div className={styles.topSection}>
+          <div className={styles.mainContent}>
+            <section className={styles.mainFacts}>
+              <Image
+                className={styles.mainImage}
+                src="/dormsOverview.jpg"
+                alt="Middlebury Dorms"
+                width={300}
+                height={200}
+              />
+              <div>
+                <h4>Fun Facts</h4>
+                <ul>
+                  {randomFacts.map((fact) => (
+                    <li key={fact}>{fact}</li>
+                  ))}
+                </ul>
+              </div>
+            </section>
           </div>
-        </section>
 
-        {/* Dorms by Years */}
+          <div className={styles.filterSidebar}>
+            <h4>Filter By Categories</h4>
+            <FilterBar
+              activeFilters={activeFilters}
+              toggleFilter={toggleFilter}
+              setYearFilter={setYearFilter}
+            />
+          </div>
+        </div>
 
-        <section className={styles.dormSection}>
-          <h2 className={styles.dormHeading}>First Year Dorms</h2>
-          <DormList dormFilter="first" />
-        </section>
+        {/* Bottom Section: Dorms by Years */}
 
-        <section className={styles.dormSection}>
-          <h2 className={styles.dormHeading}>Second Year Dorms</h2>
-          <DormList dormFilter="second" />
-        </section>
+        <div className={styles.bottomSection}>
+          <section className={styles.dormSection}>
+            <h2 className={styles.dormHeading}>First Year Dorms</h2>
+            <DormList
+              dormFilter="first"
+              filters={activeFilters}
+              yearFilter={yearFilter}
+            />
+          </section>
 
-        <section className={styles.dormSection}>
-          <h2 className={styles.dormHeading}>Junior/Senior Year Dorms</h2>
-          <DormList dormFilter="junior" />
-        </section>
+          <section className={styles.dormSection}>
+            <h2 className={styles.dormHeading}>Second Year Dorms</h2>
+            <DormList
+              dormFilter="second"
+              filters={activeFilters}
+              yearFilter={yearFilter}
+            />
+          </section>
+
+          <section className={styles.dormSection}>
+            <h2 className={styles.dormHeading}>Junior/Senior Year Dorms</h2>
+            <DormList
+              dormFilter="junior"
+              filters={activeFilters}
+              yearFilter={yearFilter}
+            />
+          </section>
+        </div>
       </main>
 
       <footer className={styles.footer}>{/* Footer will go here*/}</footer>

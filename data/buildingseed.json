@@ -136,11 +136,13 @@
     }
   },
   {
-    "id": "millikin",
+
+    "id": "milliken",
+
     "name": "Milliken Hall",
     "category": "Sophomore",
     "mapId": 511486,
-    "description": "Millikin is sophomore housing and is part of the Ross building. It has suites with 3 doubles and it has individual singles across the hall from suites. ",
+    "description": "Milliken is sophomore housing and is part of the Ross building. It has suites with 3 doubles and it has individual singles across the hall from suites. ",
     "roomTypes": ["single", "double", "suite"],
     "amenities": ["lounges", "kitchen", "elevator", "laundry"],
     "wheelchairAccessible": true,
