@@ -6,7 +6,7 @@ of one and a space for entering additional comments.
 
 */
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import styles from "@/styles/Reviewer.module.css";
 import { useRouter } from "next/router";
@@ -71,14 +71,55 @@ export default function Reviewer({
   const router = useRouter();
 
   // These are placeholders for now we will add all dorms when we set up our API in next sprint
-  const dormOptions = ["Gifford", "Battell"];
-  const roomTypes = ["Single", "Double", "Suites"];
+
+  //const dormOptions = ["Gifford", "Battell"];
+  //const roomTypes = ["Single", "Double", "Suites"];
 
   const [selectedDorm, setSelectedDorm] = useState("");
   const [selectedRoomType, setSelectedRoomType] = useState("");
   const [responses, setResponses] = useState(initialResponses);
   const [comment, setComment] = useState(initialComment);
   const [questions] = useState(defaultQuestions);
+
+  //*******************
+
+  const [dormOptions, setDormOptions] = useState([]);
+  const [roomTypes, setRoomTypes] = useState([]);
+
+  const [dormsRoomTypes, setdormsRoomTypes] = useState([]);
+
+  useEffect(() => {
+    const fetchDormsAndRoomTypes = async () => {
+      try {
+        const response = await fetch("/api/dorms");
+        if (response.ok) {
+          const data = await response.json();
+          const drt = data.reduce((dict, dorm) => {
+            dict[dorm.id] = dorm.roomTypes;
+            return dict;
+          }, {});
+          setdormsRoomTypes(drt);
+
+          const dorms = data.map((dorm) => dorm.name);
+          setDormOptions(dorms);
+        } else {
+          console.error(
+            "Failed to fetch dorms and room types:",
+            response.statusText,
+          );
+        }
+      } catch (error) {
+        console.error("Error fetching dorms and room types:", error);
+      }
+    };
+    fetchDormsAndRoomTypes();
+  }, []);
+
+  useEffect(() => {
+    setRoomTypes(dormsRoomTypes[selectedDorm] || []);
+  }, [selectedDorm, dormsRoomTypes]);
+
+  //*******************
 
   const handleChange = (questionId, value) => {
     setResponses((prev) => ({
@@ -94,8 +135,6 @@ export default function Reviewer({
       responses,
       comment,
     };
-
-    console.log("Review Data:", reviewData);
 
     const response = await fetch("/api/review", {
       method: "POST",
@@ -119,7 +158,7 @@ export default function Reviewer({
 
       {/* Dorm selector */}
       <div className={styles.question}>
-        <h2>Select Your Dorm:</h2>
+        <h3>Select Your Dorm:</h3>
         <select
           value={selectedDorm}
           onChange={(e) => setSelectedDorm(e.target.value)}
@@ -136,7 +175,7 @@ export default function Reviewer({
       </div>
       {/* Room type selector */}
       <div className={styles.question}>
-        <h2>Select Your Room Type:</h2>
+        <h3>Select Your Room Type:</h3>
         <select
           value={selectedRoomType}
           onChange={(e) => setSelectedRoomType(e.target.value)}
@@ -174,19 +213,32 @@ export default function Reviewer({
 
       {/* comment box */}
       <div className={styles.question}>
-        <p> Do you have any additional comments?</p>
-        <textarea
-          rows={4}
-          placeholder="Type your thoughts here..."
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
-          className={styles.text}
-        />
+        <h3> Please Leave a Comment on Your Room: </h3>
+        <div className={styles.textareaWrapper}>
+          <textarea
+            rows={4}
+            placeholder="Type your thoughts here..."
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+            className={styles.text}
+          />
+          <div className={styles.characterCountWrapper}>
+            <p
+              className={
+                comment.length < 100 ? styles.errorText : styles.successText
+              }
+            >
+              {comment.length < 100
+                ? `You need ${100 - comment.length} more characters`
+                : "You've reached the character minimum!"}
+            </p>
+          </div>
+        </div>
       </div>
 
       <button
         onClick={handleSubmit}
-        disabled={!selectedDorm || !selectedRoomType}
+        disabled={!selectedDorm || !selectedRoomType || comment.length < 100}
         className={styles.submitButton}
       >
         Submit{" "}
