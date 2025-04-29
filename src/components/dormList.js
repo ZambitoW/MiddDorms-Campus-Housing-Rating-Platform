@@ -35,12 +35,15 @@ export default function DormList({ dormFilter, filters = {} }) {
 
           const filteredDorms = data.filter((dorm) => {
             let matchesYear = true;
-            if (dormFilter === "first")
-              {matchesYear = dorm.dorm_id === "battell";}
-            if (dormFilter === "second")
-              {matchesYear = dorm.dorm_id === "gifford";}
-            if (dormFilter === "junior")
-              {matchesYear = dorm.dorm_id === "forest";} // or another one later
+            if (dormFilter === "first") {
+              matchesYear = dorm.category.toLowerCase().includes("freshman");
+            }
+            if (dormFilter === "second") {
+              matchesYear = dorm.category.toLowerCase().includes("sophomore");
+            }
+            if (dormFilter === "junior") {
+              matchesYear = dorm.category.toLowerCase().includes("");
+            } // or another one later
 
             const matchesFilters = matchesCategoryFilters(dorm, filters);
             return matchesYear && (noFilterActive || matchesFilters);
@@ -65,8 +68,8 @@ export default function DormList({ dormFilter, filters = {} }) {
       ) : (
         dorms.map((dorm) => (
           <Link
-            key={dorm.dorm_id}
-            href={`/dorms/${dorm.dorm_id}`}
+            key={dorm.id}
+            href={`/dorms/${dorm.id}`}
             style={{ textDecoration: "none" }}
           >
             <Card
@@ -83,14 +86,14 @@ export default function DormList({ dormFilter, filters = {} }) {
                 component="img"
                 alt={dorm.name}
                 height="140"
-                image={`/dormImages/${dorm.dorm_id}.jpg`}
+                image={`/dormImages/${dorm.id}.jpg`}
               />
               <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
                   {dorm.name}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  More info coming soon...
+                  {dorm.description}
                 </Typography>
               </CardContent>
             </Card>

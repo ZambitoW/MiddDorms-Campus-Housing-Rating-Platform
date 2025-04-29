@@ -1,32 +1,11 @@
-// need a 'dorms' table with the list of dorms we have info, for now just Giff
+import Building from "../../../../models/Building.js";
 
-// export default async function handler(req, res) {
-//     const dorms = await db("dorms").select("dorm_id", "name");
-//     res.status(200).json(dorms);
-//   }
-
-// temp route for testing
-export default function handler(req, res) {
-  res.status(200).json([
-    {
-      dorm_id: "gifford",
-      name: "Gifford",
-      roomTypes: ["suite", "single"],
-      amenities: ["laundry", "kitchen"],
-      accessibility: ["elevator"],
-    },
-    {
-      dorm_id: "battell",
-      name: "Battell",
-      roomTypes: ["double", "single", "triple"],
-      amenities: ["kitchen"],
-    },
-    {
-      dorm_id: "forest",
-      name: "Forest",
-      roomTypes: ["double", "single"],
-      amenities: ["kitchen", "laundry"],
-      accessibility: ["elevator"],
-    },
-  ]);
+export default async function handler(req, res) {
+  try {
+    const dorms = await Building.query();
+    res.status(200).json(dorms);
+  } catch (error) {
+    console.error("Error fetching dorms:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 }

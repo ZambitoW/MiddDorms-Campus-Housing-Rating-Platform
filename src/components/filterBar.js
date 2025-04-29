@@ -11,8 +11,9 @@ const filters = {
   amenities: [
     { label: "🧺 Laundry", value: "laundry" },
     { label: "🧑‍🍳 Kitchen", value: "kitchen" },
+    { label: "🛗 Elevator", value: "elevator" },
   ],
-  accessibility: [{ label: "🛗 Elevator", value: "elevator" }],
+  accessibility: [],
 };
 
 export default function FilterBar({ activeFilters, toggleFilter }) {

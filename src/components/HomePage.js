@@ -12,6 +12,7 @@ function getRandomFacts(facts, count) {
 
 export default function HomeCreator() {
   const [randomFacts, setRandomFacts] = useState([]);
+  const [yearFilter, setYearFilter] = useState(""); // <-- New for year
 
   const [activeFilters, setActiveFilters] = useState({
     roomTypes: [],
@@ -20,7 +21,7 @@ export default function HomeCreator() {
   });
 
   useEffect(() => {
-    const selectedFacts = getRandomFacts(funFacts, 3);
+    const selectedFacts = getRandomFacts(funFacts, 4);
     setRandomFacts(selectedFacts);
   }, []);
 
@@ -42,10 +43,10 @@ export default function HomeCreator() {
   return (
     <>
       <main className={styles.main}>
-        <div className={styles.contentWrapper}>
+        {/* Top Section */}
+        <h1 className={styles.title}> Middlebury College Dorms</h1>
+        <div className={styles.topSection}>
           <div className={styles.mainContent}>
-            <h1 className={styles.title}> Middlebury College Dorms</h1>
-
             <section className={styles.mainFacts}>
               <Image
                 className={styles.mainImage}
@@ -63,23 +64,6 @@ export default function HomeCreator() {
                 </ul>
               </div>
             </section>
-
-            {/* Dorms by Years */}
-
-            <section className={styles.dormSection}>
-              <h2 className={styles.dormHeading}>First Year Dorms</h2>
-              <DormList dormFilter="first" filters={activeFilters} />
-            </section>
-
-            <section className={styles.dormSection}>
-              <h2 className={styles.dormHeading}>Second Year Dorms</h2>
-              <DormList dormFilter="second" filters={activeFilters} />
-            </section>
-
-            <section className={styles.dormSection}>
-              <h2 className={styles.dormHeading}>Junior/Senior Year Dorms</h2>
-              <DormList dormFilter="junior" filters={activeFilters} />
-            </section>
           </div>
 
           <div className={styles.filterSidebar}>
@@ -87,8 +71,40 @@ export default function HomeCreator() {
             <FilterBar
               activeFilters={activeFilters}
               toggleFilter={toggleFilter}
+              setYearFilter={setYearFilter}
             />
           </div>
+        </div>
+
+        {/* Bottom Section: Dorms by Years */}
+
+        <div className={styles.bottomSection}>
+          <section className={styles.dormSection}>
+            <h2 className={styles.dormHeading}>First Year Dorms</h2>
+            <DormList
+              dormFilter="first"
+              filters={activeFilters}
+              yearFilter={yearFilter}
+            />
+          </section>
+
+          <section className={styles.dormSection}>
+            <h2 className={styles.dormHeading}>Second Year Dorms</h2>
+            <DormList
+              dormFilter="second"
+              filters={activeFilters}
+              yearFilter={yearFilter}
+            />
+          </section>
+
+          <section className={styles.dormSection}>
+            <h2 className={styles.dormHeading}>Junior/Senior Year Dorms</h2>
+            <DormList
+              dormFilter="junior"
+              filters={activeFilters}
+              yearFilter={yearFilter}
+            />
+          </section>
         </div>
       </main>
 
