@@ -11,13 +11,7 @@ import { defaultQuestions } from "./Reviewer";
 export default function DormLayout({ dorm }) {
   const router = useRouter();
   const [activeType, setActiveType] = useState("single");
-  const {roomTypes} = dorm;
-  //const [roomTypes, setRoomTypes] = useState([]);
-  /*
-  useEffect(() => {
-    setRoomTypes(dorm.roomTypes);
-  }, [dorm.roomTypes]);
-  */
+  const { roomTypes } = dorm;
   const [selectedQuestion, setSelectedQuestion] = useState(
     defaultQuestions[0].id,
   );
