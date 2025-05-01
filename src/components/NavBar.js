@@ -1,7 +1,5 @@
 import { useRouter } from "next/router";
-//import { useEffect } from "react";
 import styles from "@/styles/NavBar.module.css";
-import Image from "next/image";
 
 export default function NavBar() {
   const router = useRouter();
@@ -9,13 +7,31 @@ export default function NavBar() {
   return (
     <nav className={styles.navbar}>
       <div className={styles.logo_title} onClick={() => router.push("/")}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="../logo.jpeg"
-          alt="MiddDorms Logo"
-          className={styles.logo}
-          style={{ width: "100px", height: "100px", objectFit: "cover" }}
-        />
+        { }
+        <picture>
+          <source
+            srcset="../logoBlue.png"
+            media="(prefers-color-scheme: light)"
+            alt="MiddDorms Logo"
+            className={styles.logo}
+            style={{ width: "60px", height: "auto" }}
+          />
+
+          <source
+            srcset="../logoWhite.png"
+            media="(prefers-color-scheme: dark)"
+            alt="MiddDorms Logo"
+            className={styles.logo}
+            style={{ width: "60px", height: "auto" }}
+          />
+
+          <img
+            src="../logoWhite.png"
+            alt="MiddDorms Logo"
+            className={styles.logo}
+            style={{ width: "60px", height: "auto" }}
+          />
+        </picture>
 
         <span className={styles.title}>MiddDorms</span>
       </div>
@@ -38,7 +54,27 @@ export default function NavBar() {
           onClick={() => router.push("/user/ProfilePage")}
           className={styles.profile}
         >
-          <Image src="/login.png" alt="Profile" width={20} height={20} />
+          <picture>
+            <source
+              srcset="/loginLight.png"
+              media="(prefers-color-scheme: light)"
+              alt="Profile"
+              style={{ width: "20px", height: "20px" }}
+            />
+
+            <source
+              srcset="../loginDark.png"
+              media="(prefers-color-scheme: dark)"
+              alt="Profile"
+              style={{ width: "20px", height: "20px" }}
+            />
+
+            <img
+              src="../logoWhite.png"
+              alt="Profile"
+              style={{ width: "20px", height: "20px" }}
+            />
+          </picture>
         </div>
       </div>
     </nav>
