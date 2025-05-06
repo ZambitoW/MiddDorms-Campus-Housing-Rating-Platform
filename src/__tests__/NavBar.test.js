@@ -5,7 +5,6 @@ import ProfilePage from "@/pages/user/ProfilePage";
 import RateDormPage from "@/pages/RateDormPage";
 import Home from "@/pages/index";
 
-// This code below is to mock the router, if not the test won't pass
 jest.mock("next/router", () => ({
   useRouter: jest.fn().mockReturnValue({
     push: jest.fn(),
