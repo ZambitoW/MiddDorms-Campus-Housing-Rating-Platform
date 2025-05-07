@@ -12,6 +12,13 @@ jest.mock("next/router", () => ({
   }),
 }));
 
+beforeEach(() => {
+  global.fetch = jest.fn().mockResolvedValue({
+    ok: true,
+    json: async () => ({ userInfo: {}, pastReviews: [] }),
+  });
+});
+
 describe("NavBar appears on all main pages", () => {
   const pagesToTest = [
     { name: "Home", component: Home },
@@ -21,9 +28,9 @@ describe("NavBar appears on all main pages", () => {
   ];
 
   pagesToTest.forEach(({ name, component }) => {
-    test(`NavBar is present on the ${name} page`, () => {
+    test(`NavBar is present on the ${name} page`, async () => {
       render(<App Component={component} pageProps={{}} />);
-      expect(screen.getByRole("navigation")).toBeInTheDocument();
+      expect(await screen.findByRole("navigation")).toBeInTheDocument();
     });
   });
 });

@@ -22,11 +22,16 @@ export const authOptions = {
     async jwt({ token, user }) {
       if (user) {
         let localUser = await User.query().findOne("googleId", user.id);
+
         if (!localUser) {
-          // Create new user record in the database
+          const nameParts = user.name.split(" ");
+          const firstName = nameParts[0];
+          const lastName = nameParts.slice(1).join(" ");
+
           localUser = await User.query().insertAndFetch({
             googleId: user.id,
-            //name: user.name,
+            firstName: firstName,
+            lastName: lastName,
             email: user.email,
           });
         }

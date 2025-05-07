@@ -91,7 +91,14 @@ export default function NavBar() {
                 >
                   Profile Page
                 </div>
-                <div onClick={() => signOut()}>Sign Out</div>
+                <div
+                  onClick={() => {
+                    alert("You have signed out.");
+                    signOut({ callbackUrl: "/" });
+                  }}
+                >
+                  Sign Out
+                </div>
               </div>
             )}
           </div>
