@@ -94,9 +94,6 @@ export default function DormLayout({ dorm }) {
 
         <section className={styles.mainFacts}>
           <div>
-            <p>Type: {dorm.building_type}</p>
-            <p>Residents: {dorm.residents}</p>
-
             <div className={Dormstyles.facilitySection}>
               <FacilityReview
                 className={stylesReview.FacilityReview}

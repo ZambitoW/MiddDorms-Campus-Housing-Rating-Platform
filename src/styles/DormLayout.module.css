@@ -18,11 +18,15 @@
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
+.imageGallery img,
+.modalImageWrapper img {
+  border-radius: 8px;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
+}
 .imageGallery {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  filter: drop-shadow(2px 2px 6px rgba(0, 0, 0, 0.3));
 }
 
 .page {
@@ -39,7 +43,7 @@
   margin-bottom: 32px;
   text-shadow:
     1px 1px 4px rgba(0, 53, 107, 0.6),
-    /* Middlebury blue */ 0 0 2px rgba(0, 0, 0, 0.2); /* Soft black backup for depth */
+    0 0 2px rgba(0, 0, 0, 0.2);
 }
 .section h3 {
   font-size: 20px;
