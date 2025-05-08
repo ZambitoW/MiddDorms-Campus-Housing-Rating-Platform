@@ -112,19 +112,14 @@ export default function DormLayout({ dorm }) {
             </button>
           </div>
 
-          {/* Updated ImageSlideshow condition */}
           <div className={styles.mainImage}>
             {dorm && (
-              <p style={{ textAlign: "center", fontStyle: "italic" }}>
-                {dorm.description}
-              </p>
-            )}
-            {dorm.id === "gifford" ? (
               <>
-                <ImageGallery className={styles.mainImage} />
+                <p style={{ textAlign: "center", fontStyle: "italic" }}>
+                  {dorm.description}
+                </p>
+                <ImageGallery dormId={dorm.id} />
               </>
-            ) : (
-              <></>
             )}
           </div>
         </section>
