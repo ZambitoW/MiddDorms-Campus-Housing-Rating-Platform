@@ -1,16 +1,15 @@
 import styles from "@/styles/Home.module.css";
 import PropTypes from "prop-types";
-import { useRouter } from "next/router";
+
 import { useState, useEffect } from "react";
 import ImageGallery from "./imageGallery";
 import FacilityReview from "./FacilityReview";
 import stylesReview from "../styles/FacilityReview.module.css";
 import ReviewFilter from "./ReviewFilter";
 import { defaultQuestions } from "./Reviewer";
-import Dormstyles from "../styles/DormLayout.module.css"; // ✅ fixed typo
+import Dormstyles from "../styles/DormLayout.module.css";
 
 export default function DormLayout({ dorm }) {
-  const router = useRouter();
   const [activeType, setActiveType] = useState(null);
   const { roomTypes } = dorm;
   const [selectedQuestion, setSelectedQuestion] = useState(
@@ -94,19 +93,14 @@ export default function DormLayout({ dorm }) {
 
         <section className={styles.mainFacts}>
           <div>
-            <div className={Dormstyles.facilitySection}>
-              <FacilityReview
-                className={stylesReview.FacilityReview}
-                facilityRatings={facilityRatings}
-              />
-            </div>
-
-            <button
-              className={styles.secondary}
-              onClick={() => router.push("/")}
-            >
-              Home
-            </button>
+            <FacilityReview
+              className={stylesReview.FacilityReview}
+              facilityRatings={facilityRatings}
+              numReviews={Object.values(reviews).reduce(
+                (acc, arr) => acc + arr.length,
+                0,
+              )}
+            />
           </div>
 
           <div className={Dormstyles.descriptionAndImages}>

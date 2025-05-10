@@ -1,6 +1,7 @@
 import styles from "../styles/FacilityReview.module.css";
 import React from "react";
 import PropTypes from "prop-types";
+import { nanoid } from "nanoid";
 
 function parseAndCapitalize(str) {
   return str
@@ -17,7 +18,7 @@ function parseFacilityRatings(facilityRatings) {
   }, {});
 }
 
-const FacilityReview = ({ facilityRatings }) => {
+const FacilityReview = ({ facilityRatings, numReviews }) => {
   const totalFacilities = Object.keys(facilityRatings).length;
 
   const avgRating =
@@ -28,14 +29,60 @@ const FacilityReview = ({ facilityRatings }) => {
 
   const parsedFacilityRatings = parseFacilityRatings(facilityRatings);
 
+  const renderStars = (rating) => {
+    const fullStars = Math.floor(rating);
+    const fractionalPart = rating - fullStars;
+    const partialStarWidth = Math.round(fractionalPart * 10) * 10;
+    const emptyStars = 5 - Math.ceil(rating);
+
+    return (
+      <div>
+        {Array.from({ length: fullStars }, () => ({
+          id: nanoid(),
+        })).map((star) => (
+          <span
+            key={star.id}
+            className={styles.stars}
+            style={{ "--my-color": "#FFD700" }}
+          >
+            ★
+          </span>
+        ))}
+
+        {fractionalPart > 0 && (
+          <span
+            className={styles.partialStar}
+            style={{
+              "--partial-width": `${partialStarWidth}%`,
+            }}
+          >
+            ★
+          </span>
+        )}
+
+        {Array.from({ length: emptyStars }, () => ({
+          id: nanoid(),
+        })).map((star) => (
+          <span
+            key={star.id}
+            className={styles.stars}
+            style={{ "--my-color": "#eeeeee" }}
+          >
+            ★
+          </span>
+        ))}
+      </div>
+    );
+  };
+
   return (
     <div className={styles.reviewSummary}>
-      {/* LEFT COLUMN: summary + bars */}
-      <div className={styles.left}>
+      <div className={styles.right}>
         <div className={styles.average}>{avgRating.toFixed(1)}</div>
-        <div className={styles.stars}>★★★★★</div>
-        <div className={styles.reviewCount}>{totalFacilities} reviews</div>
-
+        <div className={styles.stars}>{renderStars(avgRating)}</div>
+        <div className={styles.reviewCount}>{numReviews} reviews</div>
+      </div>
+      <div className={styles.left}>
         {/* Rating bars */}
         {Object.entries(parsedFacilityRatings).map(([facility, rating]) => (
           <div className={styles.ratingRow} key={facility}>
@@ -52,8 +99,6 @@ const FacilityReview = ({ facilityRatings }) => {
           </div>
         ))}
       </div>
-
-      {/* RIGHT COLUMN is not part of this component */}
     </div>
   );
 };
@@ -62,4 +107,5 @@ export default FacilityReview;
 
 FacilityReview.propTypes = {
   facilityRatings: PropTypes.object.isRequired,
+  numReviews: PropTypes.number.isRequired,
 };
