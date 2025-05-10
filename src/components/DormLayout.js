@@ -1,16 +1,15 @@
 import styles from "@/styles/Home.module.css";
 import PropTypes from "prop-types";
-import { useRouter } from "next/router";
+
 import { useState, useEffect } from "react";
-/*import ImageSlideshow from "./images"; **/
+import ImageGallery from "./imageGallery";
 import FacilityReview from "./FacilityReview";
 import stylesReview from "../styles/FacilityReview.module.css";
 import ReviewFilter from "./ReviewFilter";
 import { defaultQuestions } from "./Reviewer";
-import ImageGallery from "./imageGallery";
+import Dormstyles from "../styles/DormLayout.module.css";
 
 export default function DormLayout({ dorm }) {
-  const router = useRouter();
   const [activeType, setActiveType] = useState(null);
   const { roomTypes } = dorm;
   const [selectedQuestion, setSelectedQuestion] = useState(
@@ -67,16 +66,11 @@ export default function DormLayout({ dorm }) {
             };
 
             data.forEach((review) => {
-              if (review["room_type"] === "single") {
-                newReviews.single.push(review);
-              }
-              if (review["room_type"] === "double") {
-                newReviews.double.push(review);
-              }
-              if (review["room_type"] === "suite") {
-                newReviews.suite.push(review);
-              }
+              if (review.room_type === "single") newReviews.single.push(review);
+              if (review.room_type === "double") newReviews.double.push(review);
+              if (review.room_type === "suite") newReviews.suite.push(review);
             });
+
             setReviews(newReviews);
           } else {
             console.error("Failed to fetch reviews:", response.statusText);
@@ -94,12 +88,11 @@ export default function DormLayout({ dorm }) {
   return (
     <div className={styles.page}>
       <main className={styles.main}>
-        <h1 className={styles.title}>{dorm.name}</h1>
+        {/* Updated title using Dormstyles */}
+        <h1 className={`${styles.title} ${Dormstyles.title}`}>{dorm.name}</h1>
 
         <section className={styles.mainFacts}>
           <div>
-            <p>Type: {dorm.building_type}</p>
-            <p>Residents: {dorm.residents}</p>
             <FacilityReview
               className={stylesReview.FacilityReview}
               facilityRatings={facilityRatings}
@@ -108,31 +101,22 @@ export default function DormLayout({ dorm }) {
                 0,
               )}
             />
-            <button
-              className={styles.secondary}
-              onClick={() => router.push("/RateDormPage")}
-            >
-              Write a Review
-            </button>
           </div>
 
-          <div className={styles.mainImage}>
-            {dorm && (
-              <>
-                <p style={{ textAlign: "center", fontStyle: "italic" }}>
-                  {dorm.description}
-                </p>
-                <ImageGallery dormId={dorm.id} />
-              </>
-            )}
+          <div className={Dormstyles.descriptionAndImages}>
+            <p className={Dormstyles.description}>{dorm.description}</p>
+            <div className={Dormstyles.imageGallery}>
+              <ImageGallery dormId={dorm.id} />
+            </div>
           </div>
         </section>
 
-        {/* Room Types Section */}
+        {/* Reviews Section */}
         <section className={styles.dormSection}>
           <h2 className={styles.dormHeading} style={{ textAlign: "center" }}>
             Reviews
           </h2>
+
           <div className={styles.roomTypeButtons}>
             <button
               key="all"
@@ -151,6 +135,7 @@ export default function DormLayout({ dorm }) {
               </button>
             ))}
           </div>
+
           <ReviewFilter
             selectedQuestion={selectedQuestion}
             setSelectedQuestion={setSelectedQuestion}
@@ -158,7 +143,7 @@ export default function DormLayout({ dorm }) {
             setSelectedRating={setSelectedRating}
             setFilterActive={setFilterActive}
           />
-          {/* Dropdown Section */}
+
           <div className={styles.dropdown}>
             <div className={styles.reviewList}>
               {(activeType
@@ -172,8 +157,8 @@ export default function DormLayout({ dorm }) {
                 .map((review) => (
                   <div key={review.id} className={styles.reviewCard}>
                     <p className={styles.reviewHeader}>
-                      <strong> Sophomore </strong> -{" "}
-                      <strong> April 5th, 2025 </strong>
+                      <strong>Sophomore</strong> –{" "}
+                      <strong>April 5th, 2025</strong>
                     </p>
                     <p>{review.comment}</p>
                     <p className={styles.ratings}>
@@ -184,8 +169,7 @@ export default function DormLayout({ dorm }) {
                       {review.laundry} &nbsp; Bathrooms:{" "}
                       {review.public_bathrooms} &nbsp; Kitchens:{" "}
                       {review.public_kitchens} &nbsp; Athletic Center Proximity:{" "}
-                      {review.ac_proximity} &nbsp; Elevators: {review.elevators}{" "}
-                      &nbsp;
+                      {review.ac_proximity} &nbsp; Elevators: {review.elevators}
                     </p>
                   </div>
                 ))}

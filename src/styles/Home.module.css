@@ -10,15 +10,17 @@
   align-items: center;
   justify-content: center;
 }
-
 .modalContainer {
   position: relative;
-  background: transparent;
+  background: transparent; /* or rgba(0, 0, 0, 0.6) if needed */
   max-width: 90%;
   max-height: 90%;
   padding: 40px;
   overflow-y: auto;
-  border-radius: 8px;
+  border-radius: 12px;
+
+  /* ✅ This creates a natural modal-style shadow */
+  filter: drop-shadow(0px 4px 20px rgba(0, 0, 0, 0.6));
 }
 
 .modalCloseButton {
