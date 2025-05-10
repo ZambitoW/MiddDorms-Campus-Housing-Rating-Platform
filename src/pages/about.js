@@ -13,7 +13,7 @@ const developers = [
   {
     name: "Danny",
     image: "/devs/danny.jpeg",
-    description: "Danny would suggest you stay in Coffrin.",
+    description: "Danny would suggest you stay in LaForce.",
   },
   {
     name: "Jackson",
