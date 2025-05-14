@@ -1,4 +1,5 @@
-import { useEffect, useState, Link } from "react";
+import { useEffect, useState } from "react";
+import Link from "next/link";
 import Image from "next/image";
 import styles from "@/styles/Footer.module.css";
 
