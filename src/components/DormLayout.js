@@ -1,6 +1,5 @@
 import styles from "@/styles/Home.module.css";
 import PropTypes from "prop-types";
-
 import { useState, useEffect } from "react";
 import ImageGallery from "./imageGallery";
 import FacilityReview from "./FacilityReview";
