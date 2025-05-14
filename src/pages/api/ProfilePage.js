@@ -1,4 +1,4 @@
-import { createRouter } from "next-connect";
+/*
 import User from "../../../models/User";
 import Rating from "../../../models/Rating";
 import { getSession } from "next-auth/react";
@@ -40,7 +40,7 @@ router.get(async (req, res) => {
       pastReviews: reviews.map((review) => {
         const validRatings = ratingFields
           .map((field) => review[field])
-          .filter((value) => value != null);
+          .filter((value) => value !== 0);
 
         const averageRating = validRatings.length
           ? (
@@ -101,3 +101,4 @@ router.delete(async (req, res) => {
 });
 
 export default router.handler();
+*/

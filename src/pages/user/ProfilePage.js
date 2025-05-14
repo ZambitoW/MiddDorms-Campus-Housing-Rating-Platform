@@ -20,7 +20,7 @@ export default function ProfilePage() {
   const [classChange, setClassChange] = useState(true);
   const [errorMessageState, setErrorMessage] = useState("");
 
-  // 👇 Redirect client-side if not authenticated
+  //Redirect client-side if not authenticated
   useEffect(() => {
     if (status === "unauthenticated") {
       router.replace("/api/auth/signin");
@@ -30,9 +30,13 @@ export default function ProfilePage() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
+        /*
         const response = await fetch(
           `/api/ProfilePage?id=${sessionData.user.id}`,
         );
+        */
+        const response = await fetch(`/api/reviews`);
+
         if (response.ok) {
           const data = await response.json();
           setUserProfile({
@@ -60,6 +64,7 @@ export default function ProfilePage() {
     }
 
     try {
+      /*
       const response = await fetch("/api/ProfilePage", {
         method: "PUT",
         headers: {
@@ -70,10 +75,19 @@ export default function ProfilePage() {
           classYear: userProfile.classYear,
         }),
       });
+      */
+
+      const response = await fetch(`/api/users/${userProfile.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          classYear: userProfile.classYear,
+        }),
+      });
 
       if (response.ok) {
-        const updatedData = await response.json();
-        console.log("Class year updated successfully:", updatedData);
         setClassChange(!classChange);
         setErrorMessage("");
       } else {
@@ -86,12 +100,21 @@ export default function ProfilePage() {
 
   const handleDeleteReview = async (id) => {
     try {
+      /*
       const response = await fetch("/api/ProfilePage", {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ reviewId: id }),
+      });
+      */
+
+      const response = await fetch(`/api/reviews/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
 
       if (response.ok) {
@@ -107,6 +130,10 @@ export default function ProfilePage() {
     } catch (error) {
       console.error("Error deleting review:", error);
     }
+  };
+
+  const openEditForm = async (id) => {
+    router.push(`/reviews/${id}/edit`);
   };
 
   return (
@@ -152,6 +179,7 @@ export default function ProfilePage() {
           <ReviewTable
             reviews={userProfile.pastReviews}
             onDelete={handleDeleteReview}
+            onEdit={openEditForm}
           />
         </div>
       </div>
