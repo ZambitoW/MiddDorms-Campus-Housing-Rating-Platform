@@ -50,13 +50,6 @@ export default function Editor({ id }) {
       prompt: "How close are you to the athletic center?",
       scale: { low: "Very far", high: "Very close" },
     },
-    /*
-    {
-      id: "elevators",
-      prompt: "How many elevators are in your dorm and how reliable are they?",
-      scale: { low: "No elevators", high: "Many very reliable elevators" },
-    },
-    */
   ];
 
   const router = useRouter();
