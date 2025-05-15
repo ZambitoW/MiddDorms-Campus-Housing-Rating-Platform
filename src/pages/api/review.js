@@ -26,7 +26,6 @@ router.post(async (req, res) => {
         ac_proximity: responses.ac_proximity || 0,
         public_bathrooms: responses.public_bathrooms || 0,
         public_kitchens: responses.public_kitchens || 0,
-        elevators: responses.elevators || 0,
         laundry: responses.laundry || 0,
         comment: comment,
         created_at: new Date().toISOString(),
