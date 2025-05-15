@@ -133,146 +133,148 @@ export default function DormLayout({ dorm }) {
   if (!dorm) return <p>Loading...</p>;
 
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
+    <div className={Dormstyles.page}>
+      <main className={Dormstyles.main}>
         {/* Updated title using Dormstyles */}
         <h1 className={`${styles.title} ${Dormstyles.title}`}>{dorm.name}</h1>
 
-        <section className={styles.mainFacts}>
-          <div>
-            <FacilityReview
-              className={stylesReview.FacilityReview}
-              facilityRatings={facilityRatings}
-              numReviews={Object.values(reviews).reduce(
-                (acc, arr) => acc + arr.length,
-                0,
-              )}
-              onScrollToReviews={scrollToReviews}
-            />
-          </div>
-
-          <div className={Dormstyles.descriptionAndImages}>
-            <p className={Dormstyles.description}>{dorm.description}</p>
-            <div className={Dormstyles.imageGallery}>
-              <ImageGallery dormId={dorm.id} />
+        <div className={Dormstyles.headSection}>
+          <section className={styles.mainFacts}>
+            <div>
+              <FacilityReview
+                className={stylesReview.FacilityReview}
+                facilityRatings={facilityRatings}
+                numReviews={Object.values(reviews).reduce(
+                  (acc, arr) => acc + arr.length,
+                  0,
+                )}
+                onScrollToReviews={scrollToReviews}
+              />
             </div>
-          </div>
-        </section>
+
+            <div className={Dormstyles.descriptionAndImages}>
+              <p className={Dormstyles.description}>{dorm.description}</p>
+              <div className={Dormstyles.imageGallery}>
+                <ImageGallery dormId={dorm.id} />
+              </div>
+            </div>
+          </section>
+        </div>
 
         {/* Reviews Section */}
+        <div className={Dormstyles.bodySection}>
+          <section className={Dormstyles.reviewAndMapSection} ref={reviews_ref}>
+            <div className={Dormstyles.leftColumn}>
+              <h2 className={styles.dormHeading}>Reviews</h2>
 
-        <section className={Dormstyles.reviewAndMapSection} ref={reviews_ref}>
-          <div className={Dormstyles.leftColumn}>
-            <h2 className={styles.dormHeading}>Reviews</h2>
-
-            <div className={styles.roomTypeButtons}>
-              <button
-                key="all"
-                className={`${styles.secondary} ${!activeType ? styles.roomTypeButtonActive : ""}`}
-                onClick={() => setActiveType(null)}
-              >
-                All
-              </button>
-              {roomTypes.map((type) => (
+              <div className={styles.roomTypeButtons}>
                 <button
-                  key={type}
-                  className={`${styles.secondary} ${activeType === type ? styles.roomTypeButtonActive : ""}`}
-                  onClick={() => setActiveType(type)}
+                  key="all"
+                  className={`${styles.secondary} ${!activeType ? styles.roomTypeButtonActive : ""}`}
+                  onClick={() => setActiveType(null)}
                 >
-                  {type.charAt(0).toUpperCase() + type.slice(1)}
+                  All
                 </button>
-              ))}
-            </div>
-
-            <ReviewFilter
-              selectedQuestion={selectedQuestion}
-              setSelectedQuestion={setSelectedQuestion}
-              selectedRating={selectedRating}
-              setSelectedRating={setSelectedRating}
-              setFilterActive={setFilterActive}
-            />
-
-            {/* <div className={styles.dropdown}> */}
-            <div className={styles.reviewList} style={{ marginTop: "12px" }}>
-              {(activeType
-                ? reviews[activeType]
-                : [...reviews.single, ...reviews.double, ...reviews.suite]
-              )
-                .filter(
-                  (r) =>
-                    !filterActive || r[selectedQuestion] === selectedRating,
-                )
-                .map((review) => (
-                  <Card
-                    key={review.id}
-                    variant="outlined"
-                    sx={{
-                      marginBottom: "16px",
-                      borderRadius: "12px",
-                      boxShadow: "0 2px 6px rgba(0, 0, 0, 0.1)",
-                      position: "relative",
-                    }}
+                {roomTypes.map((type) => (
+                  <button
+                    key={type}
+                    className={`${styles.secondary} ${activeType === type ? styles.roomTypeButtonActive : ""}`}
+                    onClick={() => setActiveType(type)}
                   >
-                    {currentUserId && review.userId === currentUserId && (
-                      <Box
-                        sx={{
-                          position: "absolute",
-                          top: 8,
-                          right: 8,
-                        }}
-                      >
-                        <Button onClick={() => onEditReview(review.id)}>
-                          Edit Review
-                        </Button>
-                        <Button onClick={() => onDeleteReview(review.id)}>
-                          Delete Review
-                        </Button>
-                      </Box>
-                    )}
-
-                    <CardContent>
-                      <Typography variant="subtitle2" gutterBottom>
-                        {review.userId === currentUserId ? (
-                          <Chip
-                            label="Your Review"
-                            color="primary"
-                            size="small"
-                            variant="outlined"
-                          />
-                        ) : (
-                          <strong>Anonymous – </strong>
-                        )}
-
-                        <strong> {review.date}</strong>
-                      </Typography>
-                      <Typography variant="body1" gutterBottom>
-                        {review.comment}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        Storage: {review.storage_space} &nbsp; Cleanliness:{" "}
-                        {review.clean} &nbsp; Noise: {review.noise} &nbsp; Room
-                        Size: {review.size} &nbsp; Dining Hall:{" "}
-                        {review.dining_hall_proximity} &nbsp; Laundry:{" "}
-                        {review.laundry} &nbsp; Bathrooms:{" "}
-                        {review.public_bathrooms} &nbsp; Kitchens:{" "}
-                        {review.public_kitchens} &nbsp; Athletic Center
-                        Proximity: {review.ac_proximity} &nbsp;
-                      </Typography>
-                    </CardContent>
-                  </Card>
+                    {type.charAt(0).toUpperCase() + type.slice(1)}
+                  </button>
                 ))}
-            </div>
-          </div>
+              </div>
 
-          {/* Map Section */}
-          <div className={Dormstyles.rightColumn}>
-            <div className={Dormstyles.stickyMapWrapper}>
+              <ReviewFilter
+                selectedQuestion={selectedQuestion}
+                setSelectedQuestion={setSelectedQuestion}
+                selectedRating={selectedRating}
+                setSelectedRating={setSelectedRating}
+                setFilterActive={setFilterActive}
+              />
+
+              {/* <div className={styles.dropdown}> */}
+              <div className={styles.reviewList} style={{ marginTop: "12px" }}>
+                {(activeType
+                  ? reviews[activeType]
+                  : [...reviews.single, ...reviews.double, ...reviews.suite]
+                )
+                  .filter(
+                    (r) =>
+                      !filterActive || r[selectedQuestion] === selectedRating,
+                  )
+                  .map((review) => (
+                    <Card
+                      key={review.id}
+                      variant="outlined"
+                      sx={{
+                        marginBottom: "16px",
+                        borderRadius: "12px",
+                        boxShadow: "0 2px 6px rgba(0, 0, 0, 0.1)",
+                        position: "relative",
+                      }}
+                    >
+                      {currentUserId && review.userId === currentUserId && (
+                        <Box
+                          sx={{
+                            position: "absolute",
+                            top: 8,
+                            right: 8,
+                          }}
+                        >
+                          <Button onClick={() => onEditReview(review.id)}>
+                            Edit Review
+                          </Button>
+                          <Button onClick={() => onDeleteReview(review.id)}>
+                            Delete Review
+                          </Button>
+                        </Box>
+                      )}
+
+                      <CardContent>
+                        <Typography variant="subtitle2" gutterBottom>
+                          {review.userId === currentUserId ? (
+                            <Chip
+                              label="Your Review"
+                              color="primary"
+                              size="small"
+                              variant="outlined"
+                            />
+                          ) : (
+                            <strong>Anonymous – </strong>
+                          )}
+
+                          <strong> {review.date}</strong>
+                        </Typography>
+                        <Typography variant="body1" gutterBottom>
+                          {review.comment}
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          Storage: {review.storage_space} &nbsp; Cleanliness:{" "}
+                          {review.clean} &nbsp; Noise: {review.noise} &nbsp;
+                          Room Size: {review.size} &nbsp; Dining Hall:{" "}
+                          {review.dining_hall_proximity} &nbsp; Laundry:{" "}
+                          {review.laundry} &nbsp; Bathrooms:{" "}
+                          {review.public_bathrooms} &nbsp; Kitchens:{" "}
+                          {review.public_kitchens} &nbsp; Athletic Center
+                          Proximity: {review.ac_proximity} &nbsp;
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  ))}
+              </div>
+            </div>
+
+            {/* Map Section */}
+            <div className={Dormstyles.rightColumn}>
               <h2
                 className={styles.dormHeading}
                 style={{ textAlign: "center" }}
               >
                 Location on Campus
               </h2>
+
               <div className={Dormstyles.mapBox}>
                 <iframe
                   src={
@@ -294,8 +296,8 @@ export default function DormLayout({ dorm }) {
                 </p>
               )}
             </div>
-          </div>
-        </section>
+          </section>
+        </div>
       </main>
     </div>
   );
