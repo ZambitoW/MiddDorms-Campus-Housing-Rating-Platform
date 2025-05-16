@@ -30,4 +30,9 @@ export const imageMap = {
   ],
 
   allen: ["/websiteimages/allen/allen.jpg"],
+
+  atwater: [
+    "/websiteimages/atwater/atwaterRoom.jpg",
+    "/websiteimages/atwater/atwaterRoom2.jpg",
+  ],
 };
