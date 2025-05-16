@@ -137,23 +137,22 @@ export default function DormLayout({ dorm }) {
       <main className={Dormstyles.main}>
         {/* Updated title using Dormstyles */}
         <h1 className={`${styles.title} ${Dormstyles.title}`}>{dorm.name}</h1>
-
+        <p className={Dormstyles.description}>{dorm.description}</p>
         <div className={Dormstyles.headSection}>
           <section className={styles.mainFacts}>
-            <div>
-              <FacilityReview
-                className={stylesReview.FacilityReview}
-                facilityRatings={facilityRatings}
-                numReviews={Object.values(reviews).reduce(
-                  (acc, arr) => acc + arr.length,
-                  0,
-                )}
-                onScrollToReviews={scrollToReviews}
-              />
-            </div>
+            <div className={Dormstyles.sideBySide}>
+              <div className={Dormstyles.facilityReviewBox}>
+                <FacilityReview
+                  className={stylesReview.FacilityReview}
+                  facilityRatings={facilityRatings}
+                  numReviews={Object.values(reviews).reduce(
+                    (acc, arr) => acc + arr.length,
+                    0,
+                  )}
+                  onScrollToReviews={scrollToReviews}
+                />
+              </div>
 
-            <div className={Dormstyles.descriptionAndImages}>
-              <p className={Dormstyles.description}>{dorm.description}</p>
               <div className={Dormstyles.imageGallery}>
                 <ImageGallery dormId={dorm.id} />
               </div>
