@@ -93,32 +93,33 @@ export default function HomeCreator() {
           </div>
         </div>
 
-        <div className={styles.floatingFilterPanel}>
-          <p>Filter By</p>
-          <FilterBar
-            activeFilters={activeFilters}
-            toggleFilter={toggleFilter}
-          />
-        </div>
-
         {/* Bottom Section: Dorms by Years */}
 
         <div className={styles.bottomSection}>
           <div className={styles.dormContentWrapper}>
-            <section className={styles.dormSection}>
-              <h2 className={styles.dormHeading}>First Year Dorms</h2>
-              <DormList dormFilter="first" filters={activeFilters} />
-            </section>
+            <div className={styles.mainContent}>
+              <section className={styles.dormSection}>
+                <h2 className={styles.dormHeading}>First Year Dorms</h2>
+                <DormList dormFilter="first" filters={activeFilters} />
+              </section>
 
-            <section className={styles.dormSection}>
-              <h2 className={styles.dormHeading}>Second Year Dorms</h2>
-              <DormList dormFilter="second" filters={activeFilters} />
-            </section>
+              <section className={styles.dormSection}>
+                <h2 className={styles.dormHeading}>Second Year Dorms</h2>
+                <DormList dormFilter="second" filters={activeFilters} />
+              </section>
 
-            <section className={styles.dormSection}>
-              <h2 className={styles.dormHeading}>Junior/Senior Year Dorms</h2>
-              <DormList dormFilter="junior" filters={activeFilters} />
-            </section>
+              <section className={styles.dormSection}>
+                <h2 className={styles.dormHeading}>Junior/Senior Year Dorms</h2>
+                <DormList dormFilter="junior" filters={activeFilters} />
+              </section>
+            </div>
+            <div className={styles.floatingFilterPanel}>
+              <p>Filter By</p>
+              <FilterBar
+                activeFilters={activeFilters}
+                toggleFilter={toggleFilter}
+              />
+            </div>
           </div>
         </div>
       </main>
