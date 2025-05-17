@@ -1,16 +1,18 @@
 .loginPage {
-  min-height: 100vh;
-  width: 100vw;
+  height: 100vh;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: #b1c4da;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  padding: 2rem 2rem 2rem 2rem;
+  position: fixed;
+  overflow: hidden;
 }
 
 .loginContainer {
-  background: white;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
   padding: 48px 36px;
   border-radius: 16px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
@@ -18,10 +20,13 @@
   width: 100%;
   text-align: center;
   transition: transform 0.3s ease;
+  position: fixed;
+  z-index: 2;
+  transform: translateY(-20px);
 }
 
 .loginContainer:hover {
-  transform: translateY(-2px);
+  transform: translateY(-22px);
 }
 
 .loginTitle {
@@ -70,16 +75,55 @@
   height: 20px;
 }
 
+.backgroundVideo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
 @media (max-width: 500px) {
   .loginContainer {
     padding: 24px;
   }
-
   .loginTitle {
     font-size: 1.6rem;
   }
-
   .loginContainer h3 {
     font-size: 0.9rem;
   }
+}
+
+.videoControl {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  background: rgba(255, 255, 255, 0);
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 1.25rem;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.playIcon {
+  width: 0;
+  height: 0;
+  border-left: 14px solid white;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+}
+
+.pauseIcon {
+  display: flex;
+  gap: 4px;
+}
+.pauseIcon > div {
+  width: 6px;
+  height: 20px;
+  background-color: white;
 }

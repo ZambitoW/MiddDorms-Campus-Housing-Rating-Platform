@@ -3,8 +3,11 @@ import "@/styles/globals.css";
 import NavBar from "@/components/NavBar";
 import { SessionProvider } from "next-auth/react";
 import Footer from "@/components/Footer.js";
+import { useRouter } from "next/router";
 
 export default function App({ Component, pageProps: { session, pageProps } }) {
+  const router = useRouter();
+  const isLoginPage = router.pathname === "/login";
   return (
     <div className="layoutGrid">
       <SessionProvider session={session}>
@@ -12,7 +15,7 @@ export default function App({ Component, pageProps: { session, pageProps } }) {
         <main className="pageContent">
           <Component {...pageProps} />
         </main>
-        <Footer />
+        {!isLoginPage && <Footer />}
       </SessionProvider>
     </div>
   );
