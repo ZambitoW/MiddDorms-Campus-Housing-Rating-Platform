@@ -26,8 +26,13 @@ const ReviewTable = ({ reviews, onDelete, onEdit }) => {
               onClick={() => setActiveReview(review)}
               className={styles.rowClickable}
             >
-              <td>{review.Dorm}</td>
-              <td>{review.RoomType}</td>
+              <td>
+                {review.Dorm.charAt(0).toUpperCase() + review.Dorm.slice(1)}
+              </td>
+              <td>
+                {review.RoomType.charAt(0).toUpperCase() +
+                  review.RoomType.slice(1)}
+              </td>
               <td>{review.Rating}</td>
               <td>
                 <div>
