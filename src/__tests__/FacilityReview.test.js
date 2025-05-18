@@ -19,6 +19,4 @@ describe("FacilityReview", () => {
     render(<FacilityReview facilityRatings={facilityRatings} />);
     expect(screen.getByText("3.0")).toBeInTheDocument;
   });
-
-  test();
 });
