@@ -4,9 +4,13 @@ import dorms from "../../data/buildingseed.json";
 
 describe("Dorm filtering", () => {
   beforeEach(() => {
-    global.fetch = jest.fn().mockResolvedValue({
-      ok: true,
-      json: async () => dorms,
+    global.fetch = jest.fn(() => {
+      return Promise.resolve({
+        ok: true,
+        json: async () => {
+          return dorms;
+        },
+      });
     });
   });
 
@@ -28,6 +32,7 @@ describe("Dorm filtering", () => {
       });
     }
   });
+
   test("filters dorms by amenity: elevator", async () => {
     render(<HomeCreator />);
 
