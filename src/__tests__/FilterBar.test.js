@@ -1,16 +1,12 @@
-import { render, screen, waitFor, within } from "@testing-library/react";
+import { render, screen, waitFor, within, act } from "@testing-library/react";
 import HomeCreator from "@/components/HomePage";
 import dorms from "../../data/buildingseed.json";
 
 describe("Dorm filtering", () => {
   beforeEach(() => {
-    global.fetch = jest.fn(() => {
-      return Promise.resolve({
-        ok: true,
-        json: async () => {
-          return dorms;
-        },
-      });
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: async () => dorms,
     });
   });
 
@@ -38,7 +34,9 @@ describe("Dorm filtering", () => {
 
     const elevatorFilter = await screen.findByText(/elevator/i);
 
-    elevatorFilter.click();
+    await act(async () => {
+      elevatorFilter.click();
+    });
 
     await waitFor(() => {
       const matches = screen.getAllByText(/hepburn/i);
@@ -52,7 +50,9 @@ describe("Dorm filtering", () => {
     render(<HomeCreator />);
 
     const tripleFilter = await screen.findByText(/triple/i);
-    tripleFilter.click();
+    await act(async () => {
+      tripleFilter.click();
+    });
 
     await waitFor(() => {
       const dormSections = screen.getAllByRole("region");
